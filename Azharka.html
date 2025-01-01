@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Year Card for Azhar</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .falling-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .falling-hearts span {
+            position: absolute;
+            display: block;
+            width: 15px;
+            height: 15px;
+            background: red;
+            transform: rotate(-45deg);
+            animation: fall 5s linear infinite;
+        }
+
+        .falling-hearts span::before,
+        .falling-hearts span::after {
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: red;
+            border-radius: 50%;
+        }
+
+        .falling-hearts span::before {
+            top: -7.5px;
+            left: 0;
+        }
+
+        .falling-hearts span::after {
+            top: 0;
+            left: 7.5px;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -10%;
+                left: calc(100% * var(--pos));
+                opacity: 1;
+            }
+            100% {
+                top: 110%;
+                left: calc(100% * var(--pos));
+                opacity: 0;
+            }
+        }
+
+        .card {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 2s ease-in;
+            z-index: 2;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: #ff6f61;
+            animation: bounce 2s infinite;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin: 20px 0;
+        }
+
+        .animated-heart {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            background-color: red;
+            transform: rotate(-45deg);
+            top: -50px;
+        }
+
+        .animated-heart::before,
+        .animated-heart::after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            border-radius: 50%;
+        }
+
+        .animated-heart::before {
+            top: -50px;
+            left: 0;
+        }
+
+        .animated-heart::after {
+            top: 0;
+            left: 50px;
+        }
+
+        .photo-container {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            z-index: 3;
+        }
+
+        .photo-container img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            animation: fadeZoom 1.5s ease-in-out;
+        }
+
+        .photo-container h1 {
+            position: absolute;
+            top: 10%;
+            font-size: 3rem;
+            color: pink;
+            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.8);
+            animation: zoomIn 2s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes fadeZoom {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        audio {
+            display: none;
+        }
+
+        .play-btn, .show-photos-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            background-color: #ff6f61;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .play-btn:hover, .show-photos-btn:hover {
+            background-color: #e65c55;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="falling-hearts" id="hearts">
+        <!-- Hearts will be dynamically created here -->
+    </div>
+
+    <div class="card" id="card">
+        <div class="animated-heart"></div>
+        <h1>Congratulations!</h1>
+        <p>With love ❤️</p>
+        <button class="play-btn" onclick="playMusic()">Play Music</button>
+        <button class="show-photos-btn" onclick="showPhotos()">Show Photos</button>
+        <audio id="music" src="v-x-v-prince-asylym_(muzzonas.ru).mp3"></audio>
+    </div>
+
+    <div class="photo-container" id="photoContainer">
+        <h1>С Новым Годом, Ажар!</h1>
+        <img src="photo1.jpg" alt="Photo 1">
+        <img src="photo2.jpg" alt="Photo 2">
+        <img src="photo3.jpg" alt="Photo 3">
+        <img src="photo4.jpg" alt="Photo 4">
+    </div>
+
+    <script>
+        // Create falling hearts dynamically
+        const heartsContainer = document.getElementById('hearts');
+        for (let i = 0; i < 50; i++) {
+            const heart = document.createElement('span');
+            heart.style.setProperty('--pos', Math.random());
+            heart.style.animationDelay = `${Math.random() * 5}s`;
+            heartsContainer.appendChild(heart);
+        }
+
+        function playMusic() {
+            const music = document.getElementById('music');
+            music.play();
+        }
+
+        function showPhotos() {
+            const card = document.getElementById('card');
+            const photoContainer = document.getElementById('photoContainer');
+
+            card.style.display = 'none';
+            photoContainer.style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
